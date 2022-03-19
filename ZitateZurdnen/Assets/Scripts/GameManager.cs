@@ -154,16 +154,20 @@ public class GameManager : MonoBehaviour
             item.interactable = false;
         }
 
+            Buttons[rightAnswereButtonID].transform.localScale *= 1.3f;
+
         if(won == false)
         {
-            Buttons[rightAnswereButtonID].transform.localScale *= 1.3f;
+            // farbe zurück ändern
         }
 
         yield return new WaitForSeconds(quoteDelayTime);
 
+            Buttons[rightAnswereButtonID].transform.localScale /= 1.3f;
+
         if (won == false)
         {
-            Buttons[rightAnswereButtonID].transform.localScale /= 1.3f;
+            // farbe zurück ändern
         }
 
         foreach (Button item in Buttons)
