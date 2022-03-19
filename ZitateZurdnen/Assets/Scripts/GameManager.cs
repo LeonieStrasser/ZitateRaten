@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public Image mainImage;
     public TextMeshProUGUI zitatText;
     public TextMeshProUGUI hiddenName;
+    public TextMeshProUGUI scoreText;
     public Button[] Buttons = new Button[4];
 
 
@@ -32,21 +33,26 @@ public class GameManager : MonoBehaviour
 
     //this is the short version of a 'Property', normally it would look like this:
     // int wrongAttemptMax { get {return Buttons.Length - 1; } }
-    int wrongAttemptMax => Buttons.Length - 1; 
+    int wrongAttemptMax => Buttons.Length - 1;
 
     /// <summary>
     /// Quotes we already asked for, in appearing order
     /// </summary>
     HashSet<string> alreadyUsedQuote = new HashSet<string>();
 
+    int reachedPoints = 0;
+
     // UX
     [Header("UX")]
     public float quoteDelayTime = 3;
+    [Tooltip("first entry: zero failed Attempts, second entry one failed Attempts, etc.")]
+    public int[] pointsPerQuote = new int[] { 100, 50, 25 };
 
     // Start is called before the first frame update
     void Start()
     {
         SetAutorList();
+        SetScoreText();
 
         // Runde starten
         SetZitat();
@@ -132,7 +138,7 @@ public class GameManager : MonoBehaviour
         alreadyUsedQuote.Clear();
 
         int keptQuotes = Mathf.Min(3, lastUsedQuotes.Count - 1);
-        
+
         for (int i = lastUsedQuotes.Count - keptQuotes; i < lastUsedQuotes.Count; i++)
         {
             alreadyUsedQuote.Add(lastUsedQuotes[i]);
@@ -175,6 +181,10 @@ public class GameManager : MonoBehaviour
     IEnumerator<WaitForSeconds> NewQuoteDelay(bool won)
     {
         hiddenName.text = zitatZumRaten.nameOfAuthor;
+        
+        reachedPoints += CalculateGrantedPoints(won, wrongAttemptCounter);
+
+        SetScoreText();
 
         // So, jetzt kann kein Button mehr gedrückt werden! 
         foreach (Button item in Buttons)
@@ -204,5 +214,22 @@ public class GameManager : MonoBehaviour
         }
 
         SetZitat();
-    }    
+    }
+
+    /// <summary>
+    /// Grants points depending with how few errors the solution was found
+    /// </summary>
+    int CalculateGrantedPoints(bool isWon, int wrongAttempts)
+    {
+        if (!isWon || wrongAttempts >= pointsPerQuote.Length) return 0;
+
+        return pointsPerQuote[wrongAttempts];
+    }
+
+    /// <summary>
+    /// Set the score text to the currently reached points
+    void SetScoreText()
+    {
+        scoreText.text = reachedPoints.ToString();
+    }
 }
