@@ -15955,12 +15955,19 @@ MonoBehaviour:
   - quote: "Ich brauch den M\xFCllsack."
     picture: {fileID: 21300000, guid: 44f3746a492545148b37e6d971574ec7, type: 3}
     nameOfAuthor: Celina
+  - quote: "Wir sind der Club der Anonymen Gef\xFChls-Invaliden."
+    picture: {fileID: 21300000, guid: 3bc0f12e24bc31a4ba8e4c5f2c678e64, type: 3}
+    nameOfAuthor: Erik
   - quote: Ich bin fett aber biegsam!
     picture: {fileID: 21300000, guid: 031cf96746ee21948aa24dc0f2cf6332, type: 3}
     nameOfAuthor: Felix G.
+  - quote: Kommt Zeit, kommt Bossfight!
+    picture: {fileID: 21300000, guid: 30056ad7658d3034495e6e513b7fbe43, type: 3}
+    nameOfAuthor: Leonie
   - quote: Oh Gott, A ist X!
     picture: {fileID: 21300000, guid: 2b84327db9938dc42906e0db5477b9a9, type: 3}
     nameOfAuthor: Marcel
+  authorList: []
   mainImage: {fileID: 1088682748}
   zitatText: {fileID: 740633445}
   hiddenName: {fileID: 1207648575}
@@ -15972,6 +15979,8 @@ MonoBehaviour:
   rightButtonVFX: {fileID: 543658997}
   hiddenNameString: ???
   rightAnswereButtonID: 0
+  wrongAttempCounter: 0
+  quoteDelayTime: 3
 --- !u!4 &2120272068
 Transform:
   m_ObjectHideFlags: 0

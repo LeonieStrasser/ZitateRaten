@@ -10,14 +10,12 @@ public class GameManager : MonoBehaviour
     public List<QuoteData> QuoteList = new List<QuoteData>();
     public List<string> authorList = new List<string>();
 
-
     const int authorColum = 1; // Const = DAS WIRD SICH NIEMALS ÄNDERN!
     const int quoteColum = 0;
     const int pictureColum = 2;
 
-
-
     // Verknüpfungen zum screen
+    [Header("Screen")]
     public Image mainImage;
     public TextMeshProUGUI zitatText;
     public TextMeshProUGUI hiddenName;
@@ -28,15 +26,20 @@ public class GameManager : MonoBehaviour
 
     public string hiddenNameString = "???";
 
-
     // Aktuelle Runde
+    [Header("Current Round")]
     QuoteData zitatZumRaten;
 
     public int rightAnswereButtonID;
     public int wrongAttempCounter;
 
+    /// <summary>
+    /// Quotes we already asked for, in appearing order
+    /// </summary>
+    HashSet<string> alreadyUsedQuote = new HashSet<string>();
 
     // UX
+    [Header("UX")]
     public float quoteDelayTime = 3;
 
     // Start is called before the first frame update
@@ -45,9 +48,7 @@ public class GameManager : MonoBehaviour
         SetAutorList();
 
         // Runde starten
-
         SetZitat();
-
     }
 
     void SetAutorList()
@@ -63,30 +64,23 @@ public class GameManager : MonoBehaviour
 
     public void SetZitat()
     {
-
         wrongAttempCounter = 0;
-        zitatZumRaten = QuoteList[Random.Range(0, QuoteList.Count)];
+        zitatZumRaten = GetNewQuote();
         Debug.Log("das Zitat ist " + zitatZumRaten.quote);
 
         mainImage.sprite = zitatZumRaten.picture;
         zitatText.text = zitatZumRaten.quote;
         hiddenName.text = hiddenNameString;
 
-        
-
         // Setze den Richtig-Button
         int randomButtonNr = Random.Range(0, Buttons.Length);
         rightAnswereButtonID = randomButtonNr;
         Buttons[randomButtonNr].GetComponentInChildren<TextMeshProUGUI>().text = zitatZumRaten.nameOfAuthor;
 
-
-
         // Die anderen falschen Buttons füllen
 
         HashSet<string> usedAuthors = new HashSet<string>();
         usedAuthors.Add(zitatZumRaten.nameOfAuthor);
-
-
 
         for (int i = 0; i < Buttons.Length; i++)
         {
@@ -104,7 +98,44 @@ public class GameManager : MonoBehaviour
 
             Buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = randomAuthor;
         }
+    }
 
+    /// <summary>
+    /// returns a random quote which hasn't been asked for yet, or at least lately
+    /// </summary>
+    QuoteData GetNewQuote()
+    {
+        QuoteData resultQuote;
+
+        // if we already used all existing quotes...
+        if (alreadyUsedQuote.Count >= QuoteList.Count)
+            ShrinkAlreadyUsedQuotes();
+
+        do
+        {
+            resultQuote = QuoteList[Random.Range(0, QuoteList.Count)];
+        }
+        while (alreadyUsedQuote.Contains(resultQuote.quote));
+
+        alreadyUsedQuote.Add(resultQuote.quote);
+        return resultQuote;
+    }
+
+    /// <summary>
+    /// mostly clears the list of already used quotes, but keeps the last used ones.
+    /// Keeps up to the last three, but enshures the list shrinks at least by one.
+    /// </summary>
+    void ShrinkAlreadyUsedQuotes()
+    {
+        List<string> lastUsedQuotes = new List<string>(alreadyUsedQuote);
+        alreadyUsedQuote.Clear();
+
+        int keptQuotes = Mathf.Min(3, lastUsedQuotes.Count - 1);
+        
+        for (int i = lastUsedQuotes.Count - keptQuotes; i < lastUsedQuotes.Count; i++)
+        {
+            alreadyUsedQuote.Add(lastUsedQuotes[i]);
+        }
     }
 
     public void ButtonClick(int buttonID)
@@ -119,15 +150,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
     // Das alles passiert wenn man auf den richtigen Namen klickt
     void PlayWinButton()
     {
         rightButtonVFX.Play();
-        
-        
-        
+
         StartCoroutine(NewQuoteDelay(true));
     }
 
@@ -136,14 +163,13 @@ public class GameManager : MonoBehaviour
     {
         wrongAttempCounter++;
 
-        if(wrongAttempCounter == Buttons.Length - 1)
+        if (wrongAttempCounter == Buttons.Length - 1)
         {
             StartCoroutine(NewQuoteDelay(false));
         }
-        
+
         Buttons[buttonID].interactable = false;
     }
-
 
     IEnumerator<WaitForSeconds> NewQuoteDelay(bool won)
     {
@@ -154,16 +180,16 @@ public class GameManager : MonoBehaviour
             item.interactable = false;
         }
 
-            Buttons[rightAnswereButtonID].transform.localScale *= 1.3f;
+        Buttons[rightAnswereButtonID].transform.localScale *= 1.3f;
 
-        if(won == false)
+        if (won == false)
         {
             // farbe zurück ändern
         }
 
         yield return new WaitForSeconds(quoteDelayTime);
 
-            Buttons[rightAnswereButtonID].transform.localScale /= 1.3f;
+        Buttons[rightAnswereButtonID].transform.localScale /= 1.3f;
 
         if (won == false)
         {
@@ -180,18 +206,6 @@ public class GameManager : MonoBehaviour
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     [System.Serializable]
     public struct QuoteData
     {
@@ -200,12 +214,8 @@ public class GameManager : MonoBehaviour
         public string nameOfAuthor;
     }
 
-
-
-
-
-
 #if UNITY_EDITOR
+    #region Editor-Stuff
 
     [UnityEditor.MenuItem("Tools/TSV-Table Import")]
     public static void GetMyTable()
@@ -238,9 +248,7 @@ public class GameManager : MonoBehaviour
             pictureCollection.Add(filename, zitatCard);
         }
 
-
         string[] lines = tabelle.Split('\n'); // Wir nehmen die Tabelle und spalten sie immer beim Zeilenumbruch
-
 
         for (int i = 0; i < lines.Length; i++)
         {
@@ -274,10 +282,6 @@ public class GameManager : MonoBehaviour
         UnityEditor.EditorUtility.SetDirty(myGameManager); // Markiert, dass sich beim Gamemanager was verändert hat fürs Speichern.
     }
 
-
-
-
-
     // Text von einer Webseite ziehen O.O OMG!!! DAS GEHT WIRKLIICH!!!
     public static string GetTSVTablesViaLink(string link, string tableName)
     {
@@ -303,5 +307,7 @@ public class GameManager : MonoBehaviour
                 return www.text;
         }
     }
+    #endregion Editor-Stuff
+
 #endif
 }
