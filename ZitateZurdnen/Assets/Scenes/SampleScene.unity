@@ -10277,7 +10277,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'xxxxxxxxxxxxxxxxxxxxxxxxx
+  m_text: 'xxxxxxxxxxxxxxx
+
+    xxxxxxxxxx
 
 '
   m_isRightToLeft: 0
@@ -10658,7 +10660,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -223}
+  m_AnchoredPosition: {x: 0, y: -230}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1148386486
@@ -10737,7 +10739,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -104}
+  m_AnchoredPosition: {x: 0, y: -155}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1207648575
@@ -15951,22 +15953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ad5aac5919ff048a6b93c80f901ab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QuoteList:
-  - quote: "Ich brauch den M\xFCllsack."
-    picture: {fileID: 21300000, guid: 44f3746a492545148b37e6d971574ec7, type: 3}
-    nameOfAuthor: Celina
-  - quote: "Wir sind der Club der Anonymen Gef\xFChls-Invaliden."
-    picture: {fileID: 21300000, guid: 3bc0f12e24bc31a4ba8e4c5f2c678e64, type: 3}
-    nameOfAuthor: Erik
-  - quote: Ich bin fett aber biegsam!
-    picture: {fileID: 21300000, guid: 031cf96746ee21948aa24dc0f2cf6332, type: 3}
-    nameOfAuthor: Felix G.
-  - quote: Kommt Zeit, kommt Bossfight!
-    picture: {fileID: 21300000, guid: 30056ad7658d3034495e6e513b7fbe43, type: 3}
-    nameOfAuthor: Leonie
-  - quote: Oh Gott, A ist X!
-    picture: {fileID: 21300000, guid: 2b84327db9938dc42906e0db5477b9a9, type: 3}
-    nameOfAuthor: Marcel
+  quoteCollection: {fileID: 11400000, guid: 78066b75aaaf7ba45a751ad790c5b6d0, type: 2}
   authorList: []
   mainImage: {fileID: 1088682748}
   zitatText: {fileID: 740633445}
@@ -15978,8 +15965,8 @@ MonoBehaviour:
   - {fileID: 19356302}
   rightButtonVFX: {fileID: 543658997}
   hiddenNameString: ???
-  rightAnswereButtonID: 0
-  wrongAttempCounter: 0
+  rightAnswerButtonID: 0
+  wrongAttemptCounter: 0
   quoteDelayTime: 3
 --- !u!4 &2120272068
 Transform:

@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf260b530f38c14bb79db340ea0172e, type: 3}
+  m_Name: QuoteDataCollection
+  m_EditorClassIdentifier: 
+  QuoteList:
+  - quote: Mit deinen Haaren seh ich aus wie ein Stinktier.
+    picture: {fileID: 21300000, guid: 054e575fe70c914418993033ac2677ec, type: 3}
+    nameOfAuthor: Ann
+    nsfw: 0
+  - quote: Kannst du das vorlesen? Ich hab gerade fettige Finger.
+    picture: {fileID: 21300000, guid: 11e86ace53124c04ab3dfc72979fccd9, type: 3}
+    nameOfAuthor: Ann
+    nsfw: 0
+  - quote: Selbst die Verwirrung ist verwirrt.
+    picture: {fileID: 21300000, guid: 493fe986e4c415646adc707ff14b4176, type: 3}
+    nameOfAuthor: Celina
+    nsfw: 0
+  - quote: "Ich brauch den M\xFCllsack."
+    picture: {fileID: 21300000, guid: 44f3746a492545148b37e6d971574ec7, type: 3}
+    nameOfAuthor: Celina
+    nsfw: 0
+  - quote: "Wir sind der Club der Anonymen Gef\xFChls-Invaliden."
+    picture: {fileID: 21300000, guid: 3bc0f12e24bc31a4ba8e4c5f2c678e64, type: 3}
+    nameOfAuthor: Eric
+    nsfw: 0
+  - quote: "So an ner 30cm Batterie lutschen und sich wundern \"Warum flie\xDFt da
+      Strom?\""
+    picture: {fileID: 21300000, guid: 402b5663f4f7f8846b2a6e52be55ca26, type: 3}
+    nameOfAuthor: Eric
+    nsfw: 0
+  - quote: Aber das macht ja nix. Wenn wir uns noch ein paar Mal im Kreis drehen,
+      dann tanzen wir!
+    picture: {fileID: 21300000, guid: 78c9a3f3d3f7a6b43bfb5a61225a39ea, type: 3}
+    nameOfAuthor: Eric
+    nsfw: 0
+  - quote: Ich bin fett aber biegsam!
+    picture: {fileID: 21300000, guid: 031cf96746ee21948aa24dc0f2cf6332, type: 3}
+    nameOfAuthor: Felix G.
+    nsfw: 0
+  - quote: Ich und meine Dildotower mit Lustperle oben.
+    picture: {fileID: 21300000, guid: 6494ae1037125ea49bc2f71af61e8e7d, type: 3}
+    nameOfAuthor: Felix G.
+    nsfw: 1
+  - quote: Das ist ein analoger Input! ... Anal-Oger!
+    picture: {fileID: 21300000, guid: cc9e387ae3f8b05489279d7c93f026ca, type: 3}
+    nameOfAuthor: Felix G.
+    nsfw: 1
+  - quote: Mit Eltern kann ich.
+    picture: {fileID: 21300000, guid: ba29974fe77656d43a1f851ef360f92f, type: 3}
+    nameOfAuthor: Felix G.
+    nsfw: 0
+  - quote: Wie nennt einen Band von Vampiren ?! - Blut-Gruppe.
+    picture: {fileID: 21300000, guid: f7d8f093378623646bb9c37101335f65, type: 3}
+    nameOfAuthor: Heiko
+    nsfw: 0
+  - quote: So. Jetzt komm ich. Ich bin Niemand und ich werde euch jetzt weh tun.
+      Seid ihr einverstanden?
+    picture: {fileID: 21300000, guid: c0aa6e07639b6b147a72efe722a1f297, type: 3}
+    nameOfAuthor: Hristo
+    nsfw: 0
+  - quote: "GA Channel zu betreten ist wie  so'n \xDC-EI, man wei\xDF nie was gerade
+      drin ist."
+    picture: {fileID: 21300000, guid: 5bde68f787a41974c966fa7e9fe5b000, type: 3}
+    nameOfAuthor: James
+    nsfw: 0
+  - quote: "Bench-Press ... f\xFCr das m\xE4nnliche Holz vor der H\xFCtte."
+    picture: {fileID: 21300000, guid: de801856a194a334998d5ae1acdc0ae9, type: 3}
+    nameOfAuthor: Jaro
+    nsfw: 0
+  - quote: "Ich habe gerade das starke Bed\xFCrfnis meinen Arbeitskollegen anzuz\xFCnden...alle."
+    picture: {fileID: 21300000, guid: 6f1c4bc52d78852409b6247bbdc06616, type: 3}
+    nameOfAuthor: J-D
+    nsfw: 0
+  - quote: "Wei\xDFt du mit Unreal ist das wie mit nem Hund. Unreal sp\xFCrt wenn
+      du Angst hast."
+    picture: {fileID: 21300000, guid: 0c121d72269221f488e22b8d8d325764, type: 3}
+    nameOfAuthor: J-D
+    nsfw: 0
+  - quote: "Au\xDFerdem haben wir uns Color-Screams ausgesucht."
+    picture: {fileID: 21300000, guid: 9360def53ece1fc4b97e3f0f04d79e09, type: 3}
+    nameOfAuthor: Jelly
+    nsfw: 0
+  - quote: "Wie nennt man einen Gef\xE4hrtenbund aus K\xFCnstlern? - Artgenossen!"
+    picture: {fileID: 21300000, guid: 99f37624283e8654e84c53a7e7806f72, type: 3}
+    nameOfAuthor: Leonie
+    nsfw: 0
+  - quote: Urgh ich versuch gerade rauszufinden wie Hosen funktionieren...
+    picture: {fileID: 21300000, guid: 5f59f2b72338c734abf09654c0942faa, type: 3}
+    nameOfAuthor: Leonie
+    nsfw: 0
+  - quote: "Wir sind vom gleichen Stern! Ich kann deine Pupse h\xF6r'n."
+    picture: {fileID: 21300000, guid: 72efe01d8e7a97847989103b5dd946d9, type: 3}
+    nameOfAuthor: Leonie
+    nsfw: 0
+  - quote: Kommt Zeit, kommt Bossfight!
+    picture: {fileID: 21300000, guid: 30056ad7658d3034495e6e513b7fbe43, type: 3}
+    nameOfAuthor: Leonie
+    nsfw: 0
+  - quote: "Ich hab vohin Br\xFCste geknetet und dann gegrillt - mit einem Hei\xDFluftf\xF6n."
+    picture: {fileID: 21300000, guid: fb08a4b81f75dc54cb31064038313c20, type: 3}
+    nameOfAuthor: Leonie
+    nsfw: 1
+  - quote: Hex hex! Pling Pling! Celina spring!
+    picture: {fileID: 21300000, guid: 1bf806dfd2718674b813100cc645269b, type: 3}
+    nameOfAuthor: Leonie
+    nsfw: 0
+  - quote: Oh Gott, A ist X!
+    picture: {fileID: 21300000, guid: 2b84327db9938dc42906e0db5477b9a9, type: 3}
+    nameOfAuthor: Marcel
+    nsfw: 0
+  - quote: Die 10 Ann-gebote.
+    picture: {fileID: 21300000, guid: a104c4a4a9807fc4db0e742e29a9ba9f, type: 3}
+    nameOfAuthor: Martha
+    nsfw: 0
+  - quote: Ich muss mir wieder Messer kaufen...
+    picture: {fileID: 21300000, guid: 7360cdabc95e6fc4bbcfad78816c4bf3, type: 3}
+    nameOfAuthor: Mathi
+    nsfw: 0
+  - quote: Keine Angst. Durch die Hose kommst du nicht durch.
+    picture: {fileID: 21300000, guid: ee8db8b4e62074e4c8878d6cd9c72cd2, type: 3}
+    nameOfAuthor: Mathi
+    nsfw: 0
+  - quote: "Wir haben die Schnupperk\xE4se aufgesetzt."
+    picture: {fileID: 21300000, guid: 562602185e9518649a9e278b28f4fa6f, type: 3}
+    nameOfAuthor: Tom
+    nsfw: 0
