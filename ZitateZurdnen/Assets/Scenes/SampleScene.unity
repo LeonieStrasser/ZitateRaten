@@ -16506,10 +16506,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   QuoteList:
   - quote: "Ich brauch den M\xFCllsack."
-    picture: {fileID: 0}
+    picture: {fileID: 21300000, guid: 44f3746a492545148b37e6d971574ec7, type: 3}
     nameOfAuthor: Celina
   - quote: Ich bin fett aber biegsam!
-    picture: {fileID: 0}
+    picture: {fileID: 21300000, guid: 031cf96746ee21948aa24dc0f2cf6332, type: 3}
     nameOfAuthor: Felix G.
   - quote: Oh Gott, A ist X!
     picture: {fileID: 21300000, guid: 2b84327db9938dc42906e0db5477b9a9, type: 3}

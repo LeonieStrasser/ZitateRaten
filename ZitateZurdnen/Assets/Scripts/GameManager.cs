@@ -167,6 +167,12 @@ public class GameManager : MonoBehaviour
 
         string[] lines = tabelle.Split('\n'); // Wir nehmen die Tabelle und spalten sie immer beim Zeilenumbruch
 
+        
+        for (int i = 0; i < lines.Length; i++)
+        {
+            lines[i] = lines[i].Trim();
+        }
+
         // i - 0 ist tabellenheader
         for (int i = 1; i < lines.Length; i++)
         {
