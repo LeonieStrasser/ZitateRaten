@@ -8,8 +8,8 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public List<QuoteData> QuoteList = new List<QuoteData>();
-    
-    public List<ZitatObject> zitatObjects;
+
+
 
     const int authorColum = 1; // Const = DAS WIRD SICH NIEMALS ÄNDERN!
     const int quoteColum = 0;
@@ -23,73 +23,69 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI hiddenName;
     public Button[] Buttons = new Button[4];
 
+
     public ParticleSystem rightButtonVFX;
 
+    public string hiddenNameString = "???";
+
+
     // Aktuelle Runde
-    ZitatObject zitatZumRaten;
-    
-    
+    QuoteData zitatZumRaten;
+
+    public int rightAnswereButtonID;
+
     // Start is called before the first frame update
     void Start()
     {
 
-        // Initialisieren
-        zitatZumRaten = new ZitatObject();
-        zitatObjects = new List<ZitatObject>();
-
-
-
-        // Befüllen der Liste mit ZitatObjekten (scriptable Objects) aus dem entsprechenden ordner
-
-        string[] allObjectsInFolder = AssetDatabase.FindAssets("t: ZitatObject", new[] { "Assets/ScriptableObjects" }); 
-
-        zitatObjects.Clear();
-
-        foreach(string name in allObjectsInFolder)
-        {
-            var path = AssetDatabase.GUIDToAssetPath(name);
-            var zitatCard = AssetDatabase.LoadAssetAtPath<ZitatObject>(path);
-
-            zitatObjects.Add(zitatCard);
-        }
-
         // Runde starten
         SetZitat();
-        
+
     }
 
     public void SetZitat()
-    {
-        Debug.Log(zitatObjects.Count);
-        zitatZumRaten = zitatObjects[Random.Range(0, zitatObjects.Count)];
-        Debug.Log("das Zitat ist " + zitatZumRaten.name);
+    {       
+        zitatZumRaten = QuoteList[Random.Range(0, QuoteList.Count)];
+        Debug.Log("das Zitat ist " + zitatZumRaten.quote);
 
         mainImage.sprite = zitatZumRaten.picture;
-        zitatText.text = zitatZumRaten.zitat;
-        hiddenName.text = "???";
+        zitatText.text = zitatZumRaten.quote;
+        hiddenName.text = hiddenNameString;
 
         // Buttons füllen
-        List<Button> fillButtonList = new List<Button>();
-        foreach (Button screenbutton in Buttons)
-        {
-            fillButtonList.Add(screenbutton);
-        }
+        
+     
 
         // Setze den Richtig-Button
         int randomButtonNr = Random.Range(0, Buttons.Length);
-        fillButtonList[randomButtonNr].GetComponentInChildren<TextMeshProUGUI>().text = zitatZumRaten.nameOfAuthor;
-        fillButtonList[randomButtonNr].onClick.AddListener(PlayWinButton);
-        fillButtonList.RemoveAt(randomButtonNr);
+        rightAnswereButtonID = randomButtonNr;
+        Buttons[randomButtonNr].GetComponentInChildren<TextMeshProUGUI>().text = zitatZumRaten.nameOfAuthor;
+       
+       
 
         // Die anderen falschen Buttons füllen
-        for (int i = 0; i < fillButtonList.Count; i++)
+        for (int i = 0; i < Buttons.Length; i++)
         {
-            fillButtonList[i].GetComponentInChildren<TextMeshProUGUI>().text = "otherName";
-            fillButtonList[i].onClick.AddListener(PlayWinButton);
+            if (i == randomButtonNr)
+                continue;
+
+            Buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = "otherName";
         }
 
-        fillButtonList.Clear();
     }
+
+    public void ButtonClick(int buttonID)
+    {
+        if(buttonID == rightAnswereButtonID)
+        {
+            PlayWinButton();
+        }
+        else
+        {
+            PlayWrongButton();
+        }
+    }
+
 
 
     // Das alles passiert wenn man auf den richtigen Namen klickt
@@ -147,7 +143,7 @@ public class GameManager : MonoBehaviour
     {
         GameManager myGameManager = GameObject.FindObjectOfType<GameManager>(); // Aus einer static Methode kann ich nicht auf den Rest des Plätzchens zugreifen, weil sie eine in der Späre schwebende Plätzchenform ist!
         myGameManager.QuoteList.Clear();
-        
+
 
         // Sprites aus dem Ordner ziehen
         string[] allSpriteIDsInFolder = AssetDatabase.FindAssets("t: Sprite", new[] { "Assets/Art/QuoteImages" });
@@ -167,7 +163,7 @@ public class GameManager : MonoBehaviour
 
         string[] lines = tabelle.Split('\n'); // Wir nehmen die Tabelle und spalten sie immer beim Zeilenumbruch
 
-        
+
         for (int i = 0; i < lines.Length; i++)
         {
             lines[i] = lines[i].Trim();
