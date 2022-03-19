@@ -8,7 +8,7 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public List<QuoteData> QuoteList = new List<QuoteData>();
-
+    public List<string> authorList = new List<string>();
 
 
     const int authorColum = 1; // Const = DAS WIRD SICH NIEMALS ÄNDERN!
@@ -33,18 +33,38 @@ public class GameManager : MonoBehaviour
     QuoteData zitatZumRaten;
 
     public int rightAnswereButtonID;
+    public int wrongAttempCounter;
+
+
+    // UX
+    public float quoteDelayTime = 3;
 
     // Start is called before the first frame update
     void Start()
     {
+        SetAutorList();
 
         // Runde starten
+
         SetZitat();
 
     }
 
+    void SetAutorList()
+    {
+        foreach (QuoteData item in QuoteList)
+        {
+            if (!authorList.Contains(item.nameOfAuthor))
+            {
+                authorList.Add(item.nameOfAuthor);
+            }
+        }
+    }
+
     public void SetZitat()
-    {       
+    {
+
+        wrongAttempCounter = 0;
         zitatZumRaten = QuoteList[Random.Range(0, QuoteList.Count)];
         Debug.Log("das Zitat ist " + zitatZumRaten.quote);
 
@@ -52,37 +72,50 @@ public class GameManager : MonoBehaviour
         zitatText.text = zitatZumRaten.quote;
         hiddenName.text = hiddenNameString;
 
-        // Buttons füllen
         
-     
 
         // Setze den Richtig-Button
         int randomButtonNr = Random.Range(0, Buttons.Length);
         rightAnswereButtonID = randomButtonNr;
         Buttons[randomButtonNr].GetComponentInChildren<TextMeshProUGUI>().text = zitatZumRaten.nameOfAuthor;
-       
-       
+
+
 
         // Die anderen falschen Buttons füllen
+
+        HashSet<string> usedAuthors = new HashSet<string>();
+        usedAuthors.Add(zitatZumRaten.nameOfAuthor);
+
+
+
         for (int i = 0; i < Buttons.Length; i++)
         {
             if (i == randomButtonNr)
                 continue;
+            string randomAuthor;
 
-            Buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = "otherName";
+            do
+            {
+                randomAuthor = authorList[Random.Range(0, authorList.Count)];
+            }
+            while (usedAuthors.Contains(randomAuthor)); //Es müssen mehr Autoren als es Buttons gibt in der Autorenliste sein! So! JA! NIEMAND wird das jeh lesen!!!
+
+            usedAuthors.Add(randomAuthor);
+
+            Buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = randomAuthor;
         }
 
     }
 
     public void ButtonClick(int buttonID)
     {
-        if(buttonID == rightAnswereButtonID)
+        if (buttonID == rightAnswereButtonID)
         {
             PlayWinButton();
         }
         else
         {
-            PlayWrongButton();
+            PlayWrongButton(buttonID);
         }
     }
 
@@ -92,12 +125,53 @@ public class GameManager : MonoBehaviour
     void PlayWinButton()
     {
         rightButtonVFX.Play();
+        
+        
+        
+        StartCoroutine(NewQuoteDelay(true));
     }
 
     // Das passiert wenn man auf den falschen Namen klickt
-    void PlayWrongButton()
+    void PlayWrongButton(int buttonID)
+    {
+        wrongAttempCounter++;
+
+        if(wrongAttempCounter == Buttons.Length - 1)
+        {
+            StartCoroutine(NewQuoteDelay(false));
+        }
+        
+        Buttons[buttonID].interactable = false;
+    }
+
+
+    IEnumerator<WaitForSeconds> NewQuoteDelay(bool won)
     {
 
+        // So, jetzt kann kein Button mehr gedrückt werden! 
+        foreach (Button item in Buttons)
+        {
+            item.interactable = false;
+        }
+
+        if(won == false)
+        {
+            Buttons[rightAnswereButtonID].transform.localScale *= 1.3f;
+        }
+
+        yield return new WaitForSeconds(quoteDelayTime);
+
+        if (won == false)
+        {
+            Buttons[rightAnswereButtonID].transform.localScale /= 1.3f;
+        }
+
+        foreach (Button item in Buttons)
+        {
+            item.interactable = true;
+        }
+
+        SetZitat();
     }
 
 
