@@ -8,7 +8,10 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public QuoteDataCollection quoteCollection;
-    public List<QuoteData> QuoteList => quoteCollection.QuoteList;
+    /// <summary>
+    /// uses different quote lists depending if the game should be sfw or not.
+    /// </summary>
+    public List<QuoteData> UsedQuoteList => nsfw ? quoteCollection.QuoteList : quoteCollection.SFWQuoteList;
     public List<string> authorList = new List<string>();
 
     // Verknüpfungen zum screen
@@ -26,8 +29,9 @@ public class GameManager : MonoBehaviour
 
     // Aktuelle Runde
     [Header("Current Round")]
-    QuoteData zitatZumRaten;
+    [SerializeField] QuoteData zitatZumRaten;
 
+    public bool nsfw = true;
     public int rightAnswerButtonID;
     public int wrongAttemptCounter;
 
@@ -45,7 +49,7 @@ public class GameManager : MonoBehaviour
     // UX
     [Header("UX")]
     public float quoteDelayTime = 3;
-    [Tooltip("first entry: zero failed Attempts, second entry one failed Attempts, etc.")]
+    [Tooltip("first entry: zero failed Attempts\nsecond entry: one failed Attempts\netc.")]
     public int[] pointsPerQuote = new int[] { 100, 50, 25 };
 
     // Start is called before the first frame update
@@ -60,7 +64,7 @@ public class GameManager : MonoBehaviour
 
     void SetAutorList()
     {
-        foreach (QuoteData item in QuoteList)
+        foreach (QuoteData item in UsedQuoteList)
         {
             if (!authorList.Contains(item.nameOfAuthor))
             {
@@ -114,13 +118,16 @@ public class GameManager : MonoBehaviour
     {
         QuoteData resultQuote;
 
+        // since the sfw-list is generated every time we call it.
+        List<QuoteData> quoteList = UsedQuoteList;
+
         // if we already used all existing quotes...
-        if (alreadyUsedQuote.Count >= QuoteList.Count)
+        if (alreadyUsedQuote.Count >= quoteList.Count)
             ShrinkAlreadyUsedQuotes();
 
         do
         {
-            resultQuote = QuoteList[Random.Range(0, QuoteList.Count)];
+            resultQuote = quoteList[Random.Range(0, quoteList.Count)];
         }
         while (alreadyUsedQuote.Contains(resultQuote.quote));
 
@@ -181,7 +188,7 @@ public class GameManager : MonoBehaviour
     IEnumerator<WaitForSeconds> NewQuoteDelay(bool won)
     {
         hiddenName.text = zitatZumRaten.nameOfAuthor;
-        
+
         reachedPoints += CalculateGrantedPoints(won, wrongAttemptCounter);
 
         SetScoreText();

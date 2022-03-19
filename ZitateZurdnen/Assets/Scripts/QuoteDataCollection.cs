@@ -1,12 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenuAttribute]
+[CreateAssetMenu]
 public class QuoteDataCollection : ScriptableObject
 {
     public List<QuoteData> QuoteList = new List<QuoteData>();
+
+    /// <summary>
+    /// Creates a SFW-version of the QuoteList.
+    /// </summary>
+    // .Where() is a Linq Statement, in the brackets you can define a condition.
+    // Here it's: take only the List-Elements (here named quote) where nfsw is false.
+    public List<QuoteData> SFWQuoteList => (List<QuoteData>)QuoteList.Where(quote => quote.nsfw == false);
 
     const int authorColumn = 1; // Const = DAS WIRD SICH NIEMALS ÄNDERN!
     const int quoteColumn = 0;
@@ -29,8 +37,7 @@ public class QuoteDataCollection : ScriptableObject
     private static void CreateQuoteObjects(string tabelle)
     {
         GameManager myGameManager = GameObject.FindObjectOfType<GameManager>(); // Aus einer static Methode kann ich nicht auf den Rest des Plätzchens zugreifen, weil sie eine in der Späre schwebende Plätzchenform ist!
-        myGameManager.QuoteList.Clear();
-
+        myGameManager.quoteCollection.QuoteList.Clear();
 
         // Sprites aus dem Ordner ziehen
         string[] allSpriteIDsInFolder = AssetDatabase.FindAssets("t: Sprite", new[] { "Assets/Art/QuoteImages" });
@@ -72,14 +79,14 @@ public class QuoteDataCollection : ScriptableObject
                 Debug.LogWarning($"Kein Bild {pictureName} gefunden du Spakko!");
 
             //-------------------------- Und nun wird der nextData der Quote Liste hinzugefügt
-            myGameManager.QuoteList.Add(nextData);
+            myGameManager.quoteCollection.QuoteList.Add(nextData);
         }
 
         // SORTIEREN NACH ALFA-BEET
-        myGameManager.QuoteList.Sort((x, y) => x.quote.CompareTo(y.quote));
-        myGameManager.QuoteList.Sort((x, y) => x.nameOfAuthor.CompareTo(y.nameOfAuthor));
+        myGameManager.quoteCollection.QuoteList.Sort((x, y) => x.quote.CompareTo(y.quote));
+        myGameManager.quoteCollection.QuoteList.Sort((x, y) => x.nameOfAuthor.CompareTo(y.nameOfAuthor));
 
-        UnityEditor.EditorUtility.SetDirty(myGameManager); // Markiert, dass sich beim Gamemanager was verändert hat fürs Speichern.
+        UnityEditor.EditorUtility.SetDirty(myGameManager.quoteCollection); // Markiert, dass sich was verändert hat fürs Speichern.
     }
 
     // Text von einer Webseite ziehen O.O OMG!!! DAS GEHT WIRKLIICH!!!
