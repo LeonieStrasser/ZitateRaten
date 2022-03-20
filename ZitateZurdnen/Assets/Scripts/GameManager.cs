@@ -121,7 +121,8 @@ public class GameManager : MonoBehaviour
             {
                 randomAuthor = authorList[Random.Range(0, authorList.Count)];
             }
-            while (usedAuthors.Contains(randomAuthor)); //Es müssen mehr Autoren als es Buttons gibt in der Autorenliste sein! So! JA! NIEMAND wird das jeh lesen!!!
+            while (usedAuthors.Contains(randomAuthor) || currentQuote.quote.Contains(randomAuthor));
+            //Es müssen mehr Autoren als es Buttons gibt in der Autorenliste sein! So! JA! NIEMAND wird das jeh lesen!!!
 
             usedAuthors.Add(randomAuthor);
 
