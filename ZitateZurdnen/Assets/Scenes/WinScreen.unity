@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 4000608}
   - component: {fileID: 4000611}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Layout Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -526,7 +526,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &604680851
 MonoBehaviour:
@@ -542,6 +542,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 981573170}
   highScoreText: {fileID: 596574074}
+  slowestImage: {fileID: 67933505}
+  fastestImage: {fileID: 4358615}
 --- !u!1 &609296059
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,7 +639,7 @@ RectTransform:
   - {fileID: 67933504}
   - {fileID: 1468242684}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1127,7 +1129,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1468242683
 GameObject:
@@ -1459,5 +1461,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

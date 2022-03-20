@@ -31,11 +31,12 @@ public class GameManager : MonoBehaviour
 
     // Aktuelle Runde
     [Header("Current Round")]
-    [SerializeField] QuoteData zitatZumRaten;
+    [SerializeField] QuoteData currentQuote;
 
     public bool nsfw = true;
     public int rightAnswerButtonID;
     public int wrongAttemptCounter;
+
 
     //this is the short version of a 'Property', normally it would look like this:
     // int wrongAttemptMax { get {return Buttons.Length - 1; } }
@@ -93,21 +94,21 @@ public class GameManager : MonoBehaviour
         progressText.text = (playedQuotesInRound + 1) + "/" + quotesPerRound;
 
         wrongAttemptCounter = 0;
-        zitatZumRaten = GetNewQuote();
-        Debug.Log("das Zitat ist " + zitatZumRaten.quote);
+        currentQuote = GetNewQuote();
+        Debug.Log("das Zitat ist " + currentQuote.quote);
 
-        mainImage.sprite = zitatZumRaten.picture;
-        zitatText.text = zitatZumRaten.quote;
+        mainImage.sprite = currentQuote.picture;
+        zitatText.text = currentQuote.quote;
         hiddenName.text = hiddenNameString;
 
         // Setze den Richtig-Button
         rightAnswerButtonID = Random.Range(0, Buttons.Length);
-        Buttons[rightAnswerButtonID].GetComponentInChildren<TextMeshProUGUI>().text = zitatZumRaten.nameOfAuthor;
+        Buttons[rightAnswerButtonID].GetComponentInChildren<TextMeshProUGUI>().text = currentQuote.nameOfAuthor;
 
         // Die anderen falschen Buttons füllen
 
         HashSet<string> usedAuthors = new HashSet<string>();
-        usedAuthors.Add(zitatZumRaten.nameOfAuthor);
+        usedAuthors.Add(currentQuote.nameOfAuthor);
 
         for (int i = 0; i < Buttons.Length; i++)
         {
@@ -126,6 +127,8 @@ public class GameManager : MonoBehaviour
 
             Buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = randomAuthor;
         }
+
+        GetComponent<QuoteTimes>().QuoteStart(currentQuote);
     }
 
     /// <summary>
@@ -204,7 +207,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator<WaitForSeconds> NewQuoteDelay(bool won)
     {
-        hiddenName.text = zitatZumRaten.nameOfAuthor;
+        hiddenName.text = currentQuote.nameOfAuthor;
 
         reachedPoints += CalculateGrantedPoints(won, wrongAttemptCounter);
 
@@ -224,6 +227,8 @@ public class GameManager : MonoBehaviour
         {
             // farbe zurück ändern
         }
+
+        GetComponent<QuoteTimes>().QuoteEnd();
 
         yield return new WaitForSeconds(quoteDelayTime);
 
