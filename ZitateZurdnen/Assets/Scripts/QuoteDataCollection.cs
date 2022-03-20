@@ -7,19 +7,40 @@ using UnityEngine;
 [CreateAssetMenu]
 public class QuoteDataCollection : ScriptableObject
 {
-    public List<QuoteData> QuoteList = new List<QuoteData>();
+    public List<QuoteData> quoteList = new List<QuoteData>();
 
     /// <summary>
     /// Creates a SFW-version of the QuoteList.
     /// </summary>
     // .Where() is a Linq Statement, in the brackets you can define a condition.
     // Here it's: take only the List-Elements (here named quote) where nfsw is false.
-    public List<QuoteData> SFWQuoteList => (List<QuoteData>)QuoteList.Where(quote => quote.nsfw == false);
+    public List<QuoteData> SFWQuoteList => (List<QuoteData>)quoteList.Where(quote => quote.nsfw == false);
 
     const int authorColumn = 1; // Const = DAS WIRD SICH NIEMALS ÄNDERN!
     const int quoteColumn = 0;
     const int pictureColumn = 2;
     const int nsfwColumn = 3;
+
+    public Sprite[] AllQuotePictures(bool nsfw)
+    {
+        HashSet<Sprite> pictures = new HashSet<Sprite>();
+
+        if (!nsfw)
+        {
+            foreach (var quote in quoteList)
+            {
+                if (quote.nsfw) continue;
+                pictures.Add(quote.picture);
+            }
+        }
+        else
+        {
+            foreach (var quote in quoteList)
+                pictures.Add(quote.picture);
+        }
+
+        return pictures.ToArray();
+    }
 
 #if UNITY_EDITOR
     #region Editor-Stuff
@@ -37,7 +58,7 @@ public class QuoteDataCollection : ScriptableObject
     private static void CreateQuoteObjects(string tabelle)
     {
         GameManager myGameManager = GameObject.FindObjectOfType<GameManager>(); // Aus einer static Methode kann ich nicht auf den Rest des Plätzchens zugreifen, weil sie eine in der Späre schwebende Plätzchenform ist!
-        myGameManager.quoteCollection.QuoteList.Clear();
+        myGameManager.quoteCollection.quoteList.Clear();
 
         // Sprites aus dem Ordner ziehen
         string[] allSpriteIDsInFolder = AssetDatabase.FindAssets("t: Sprite", new[] { "Assets/Art/QuoteImages" });
@@ -79,12 +100,12 @@ public class QuoteDataCollection : ScriptableObject
                 Debug.LogWarning($"Kein Bild {pictureName} gefunden du Spakko!");
 
             //-------------------------- Und nun wird der nextData der Quote Liste hinzugefügt
-            myGameManager.quoteCollection.QuoteList.Add(nextData);
+            myGameManager.quoteCollection.quoteList.Add(nextData);
         }
 
         // SORTIEREN NACH ALFA-BEET
-        myGameManager.quoteCollection.QuoteList.Sort((x, y) => x.quote.CompareTo(y.quote));
-        myGameManager.quoteCollection.QuoteList.Sort((x, y) => x.nameOfAuthor.CompareTo(y.nameOfAuthor));
+        myGameManager.quoteCollection.quoteList.Sort((x, y) => x.quote.CompareTo(y.quote));
+        myGameManager.quoteCollection.quoteList.Sort((x, y) => x.nameOfAuthor.CompareTo(y.nameOfAuthor));
 
         UnityEditor.EditorUtility.SetDirty(myGameManager.quoteCollection); // Markiert, dass sich was verändert hat fürs Speichern.
     }

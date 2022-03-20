@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// uses different quote lists depending if the game should be sfw or not.
     /// </summary>
-    public List<QuoteData> UsedQuoteList => nsfw ? quoteCollection.QuoteList : quoteCollection.SFWQuoteList;
+    public List<QuoteData> QuoteList => nsfw ? quoteCollection.quoteList : quoteCollection.SFWQuoteList;
     public List<string> authorList = new List<string>();
 
     // Verknüpfungen zum screen
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
 
     void SetAutorList()
     {
-        foreach (QuoteData item in UsedQuoteList)
+        foreach (QuoteData item in QuoteList)
         {
             if (!authorList.Contains(item.nameOfAuthor))
             {
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
         QuoteData resultQuote;
 
         // since the sfw-list is generated every time we call it.
-        List<QuoteData> quoteList = UsedQuoteList;
+        List<QuoteData> quoteList = QuoteList;
 
         // if we already used all existing quotes...
         if (alreadyUsedQuote.Count >= quoteList.Count)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf260b530f38c14bb79db340ea0172e, type: 3}
   m_Name: QuoteDataCollection
   m_EditorClassIdentifier: 
-  QuoteList:
+  quoteList:
   - quote: Mit deinen Haaren seh ich aus wie ein Stinktier.
     picture: {fileID: 21300000, guid: 054e575fe70c914418993033ac2677ec, type: 3}
     nameOfAuthor: Ann
