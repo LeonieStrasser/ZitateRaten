@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI hiddenName;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
+    public TextMeshProUGUI progressText;
     public Button[] Buttons = new Button[4];
 
 
@@ -43,9 +44,10 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Quotes we already asked for, in appearing order
     /// </summary>
-    HashSet<string> alreadyUsedQuote = new HashSet<string>();
+    static HashSet<string> alreadyUsedQuote = new HashSet<string>();
 
-    int reachedPoints = 0;
+    int playedQuotesInRound = 0;
+    public static int reachedPoints = 0;
 
     // Metaebene
     int highscorePoints = 0;
@@ -56,9 +58,14 @@ public class GameManager : MonoBehaviour
     [Tooltip("first entry: zero failed Attempts\nsecond entry: one failed Attempts\netc.")]
     public int[] pointsPerQuote = new int[] { 100, 50, 25 };
 
+    public int quotesPerRound = 3;
+
     // Start is called before the first frame update
     void Start()
     {
+        // set back static values
+        reachedPoints = 0;
+
         SetAutorList();
 
         highscorePoints = SavegameManager.GetHighscore();
@@ -83,6 +90,8 @@ public class GameManager : MonoBehaviour
 
     public void SetZitat()
     {
+        progressText.text = (playedQuotesInRound + 1) + "/" + quotesPerRound;
+
         wrongAttemptCounter = 0;
         zitatZumRaten = GetNewQuote();
         Debug.Log("das Zitat ist " + zitatZumRaten.quote);
@@ -201,6 +210,8 @@ public class GameManager : MonoBehaviour
 
         SetScoreText();
 
+        playedQuotesInRound++;
+
         // So, jetzt kann kein Button mehr gedrückt werden! 
         foreach (Button item in Buttons)
         {
@@ -223,12 +234,19 @@ public class GameManager : MonoBehaviour
             // farbe zurück ändern
         }
 
-        foreach (Button item in Buttons)
+        if (ShouldRoundEnd())
         {
-            item.interactable = true;
+            SceneLoad.TryLoadScene(SceneLoad.SceneID.WinScreen);
         }
+        else
+        {
+            foreach (Button item in Buttons)
+            {
+                item.interactable = true;
+            }
 
-        SetZitat();
+            SetZitat();
+        }
     }
 
     /// <summary>
@@ -247,12 +265,20 @@ public class GameManager : MonoBehaviour
     {
         scoreText.text = reachedPoints.ToString();
 
-        if(reachedPoints > highscorePoints)
+        if (reachedPoints > highscorePoints)
         {
             highscorePoints = reachedPoints;
             highScoreText.text = highscorePoints.ToString();
 
             SavegameManager.StoreHighscore(highscorePoints);
         }
+    }
+
+    /// <summary>
+    /// returns true if enough quotes in this round have been played
+    /// </summary>
+    bool ShouldRoundEnd()
+    {
+        return playedQuotesInRound >= quotesPerRound;
     }
 }
