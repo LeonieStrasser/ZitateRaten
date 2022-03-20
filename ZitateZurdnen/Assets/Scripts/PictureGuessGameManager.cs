@@ -14,6 +14,8 @@ public class PictureGuessGameManager : MonoBehaviour
     [SerializeField] TMPro.TMP_Text quoteText;
     [SerializeField] Image quoteRightImage;
     [SerializeField] TMPro.TMP_Text quoteRightText;
+    [SerializeField] TMPro.TMP_Text progressText;
+
     [SerializeField] PictureGuessButton[] guessButtons;
 
     [SerializeField] QuoteData nextQuoteToGuess;
@@ -30,10 +32,20 @@ public class PictureGuessGameManager : MonoBehaviour
     int wrongGuess = 0;
     int wrongGuessMax => guessButtons.Length - 1;
 
+    int playedQuotesInRound = 0;
+
+    [Header("UX")]
+    [SerializeField] int quotesPerRound = 10;
+
     private void Awake()
     {
+        //foreach (var item in QuoteList)
+        //{
+        //    GetRelatedQuotes(item, new HashSet<Sprite>() { item.picture });
+        //}
+
         instance = this;
-        quoteRightImage.gameObject.SetActive( false);
+        quoteRightImage.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -50,6 +62,8 @@ public class PictureGuessGameManager : MonoBehaviour
 
     void SetupNewGuess()
     {
+        progressText.text = (playedQuotesInRound + 1) + "/" + quotesPerRound;
+
         SetupNextQuote();
 
         quoteText.text = nextQuoteToGuess.quote;
@@ -63,6 +77,7 @@ public class PictureGuessGameManager : MonoBehaviour
         SetupFalseButtons();
 
         wrongGuess = 0;
+
     }
 
     void SetupNextQuote()
@@ -118,6 +133,42 @@ public class PictureGuessGameManager : MonoBehaviour
         }
     }
 
+    List<QuoteData> GetRelatedQuotes(QuoteData referedQuote, HashSet<Sprite> excluded)
+    {
+        List<QuoteData> quotesWithReference = new List<QuoteData>();
+
+        string s = "";
+
+        string[] tags;
+        foreach (var quote in QuoteList)
+        {
+            if (excluded.Contains(quote.picture)) continue;
+
+            tags = System.Text.RegularExpressions.Regex.Replace(quote.picture.name, "([A-Z])", " $1",
+                                               System.Text.RegularExpressions.RegexOptions.Compiled).Trim().ToLower().Split(' ');
+
+            string line = referedQuote.quote.ToLower();
+
+            foreach (var tag in tags)
+            {
+                if (tag.Length < 3) continue;
+
+                if (line.Contains(tag))
+                {
+                    s += quote.picture.name + "\n";
+
+                    quotesWithReference.Add(quote);
+                    break;
+                }
+            }
+        }
+
+        if (quotesWithReference.Count > 0)
+            Debug.Log($"Quote: {referedQuote.picture} Refs[{quotesWithReference.Count}]\n" + s);
+
+        return quotesWithReference;
+    }
+
     public static void s_ButtonPressed(PictureGuessButton pressedButton) => instance.ButtonPressed(pressedButton);
 
     void ButtonPressed(PictureGuessButton pressedButton)
@@ -140,10 +191,18 @@ public class PictureGuessGameManager : MonoBehaviour
 
         for (int i = 0; i < guessButtons.Length; i++)
             guessButtons[i].SetInteractable(false);
+
+        playedQuotesInRound++;
     }
 
     public void ButtonContinueAfterRight()
     {
+        if(playedQuotesInRound >= quotesPerRound)
+        {
+            SceneLoad.TryLoadScene(SceneLoad.SceneID.WinScreen);
+            return;
+        }
+
         foreach (var button in guessButtons)
             button.SetInteractable(true);
 
