@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI zitatText;
     public TextMeshProUGUI hiddenName;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI highScoreText;
     public Button[] Buttons = new Button[4];
 
 
@@ -46,6 +47,9 @@ public class GameManager : MonoBehaviour
 
     int reachedPoints = 0;
 
+    // Metaebene
+    int highscorePoints = 0;
+
     // UX
     [Header("UX")]
     public float quoteDelayTime = 3;
@@ -56,6 +60,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SetAutorList();
+
+        highscorePoints = SavegameManager.GetHighscore();
+        highScoreText.text = highscorePoints.ToString();
+
         SetScoreText();
 
         // Runde starten
@@ -238,5 +246,13 @@ public class GameManager : MonoBehaviour
     void SetScoreText()
     {
         scoreText.text = reachedPoints.ToString();
+
+        if(reachedPoints > highscorePoints)
+        {
+            highscorePoints = reachedPoints;
+            highScoreText.text = highscorePoints.ToString();
+
+            SavegameManager.StoreHighscore(highscorePoints);
+        }
     }
 }
